@@ -1,4 +1,5 @@
 import os
+from collections.abc import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import (
     AsyncSession,
@@ -6,32 +7,50 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 from sqlalchemy.orm import DeclarativeBase
-from collections.abc import AsyncGenerator
 
 
-DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "sqlite+aiosqlite:///./profiles.db",
-)
 
-# Convert ordinary PostgreSQL URLs to the SQLAlchemy asyncpg dialect.
-if DATABASE_URL.startswith("postgres://"):
-    DATABASE_URL = DATABASE_URL.replace(
-        "postgres://",
-        "postgresql+asyncpg://",
-        1,
-    )
-elif DATABASE_URL.startswith("postgresql://"):
-    DATABASE_URL = DATABASE_URL.replace(
-        "postgresql://",
-        "postgresql+asyncpg://",
-        1,
-    )
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-# Use TLS for Neon PostgreSQL connections.
+if not DATABASE_URL:
+    hostname = os.getenv("DATABASE_HOSTNAME")
+    port = os.getenv("DATABASE_PORT", "5432")
+    username = os.getenv("DATABASE_USERNAME")
+    password = os.getenv("DATABASE_PASSWORD")
+    database_name = os.getenv("DATABASE_NAME", "neondb")
+
+    if hostname and username and password:
+        from sqlalchemy.engine import URL
+
+        DATABASE_URL = URL.create(
+            drivername="postgresql+asyncpg",
+            username=username,
+            password=password,
+            host=hostname,
+            port=int(port),
+            database=database_name,
+        )
+
+    else:
+        DATABASE_URL = "sqlite+aiosqlite:///./profiles.db"
+
+if isinstance(DATABASE_URL, str):
+    if DATABASE_URL.startswith("postgres://"):
+        DATABASE_URL = DATABASE_URL.replace(
+            "postgres://",
+            "postgresql+asyncpg://",
+            1,
+        )
+    elif DATABASE_URL.startswith("postgresql://"):
+        DATABASE_URL = DATABASE_URL.replace(
+            "postgresql://",
+            "postgresql+asyncpg://",
+            1,
+        )
+
 connect_args = (
     {"ssl": "require"}
-    if DATABASE_URL.startswith("postgresql+asyncpg://")
+    if str(DATABASE_URL).startswith("postgresql+asyncpg://")
     else {}
 )
 
@@ -45,6 +64,7 @@ engine = create_async_engine(
     echo=False,
     connect_args=connect_args,
 )
+
 
 AsyncSessionLocal = async_sessionmaker(
     bind=engine,
