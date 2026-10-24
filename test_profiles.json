@@ -1,0 +1,75 @@
+
+[
+  {
+    "name": "kofi",
+    "gender": "male",
+    "age": 35,
+    "gender_probability": 0.98,
+    "country_id": "KE",
+    "country_probability": 0.91,
+    "sample_size": 1200
+  },
+  {
+    "name": "amina",
+    "gender": "female",
+    "age": 42,
+    "gender_probability": 0.99,
+    "country_id": "KE",
+    "country_probability": 0.88,
+    "sample_size": 950
+  },
+  {
+    "name": "chidi",
+    "gender": "male",
+    "age": 31,
+    "gender_probability": 0.96,
+    "country_id": "NG",
+    "country_probability": 0.97,
+    "sample_size": 1800
+  },
+  {
+    "name": "zara",
+    "gender": "female",
+    "age": 23,
+    "gender_probability": 0.99,
+    "country_id": "NG",
+    "country_probability": 0.94,
+    "sample_size": 1600
+  },
+  {
+    "name": "ama",
+    "gender": "female",
+    "age": 19,
+    "gender_probability": 0.97,
+    "country_id": "GH",
+    "country_probability": 0.90,
+    "sample_size": 800
+  },
+  {
+    "name": "daniel",
+    "gender": "male",
+    "age": 10,
+    "gender_probability": 0.98,
+    "country_id": "GH",
+    "country_probability": 0.87,
+    "sample_size": 700
+  },
+  {
+    "name": "olivia",
+    "gender": "female",
+    "age": 65,
+    "gender_probability": 0.99,
+    "country_id": "AU",
+    "country_probability": 0.92,
+    "sample_size": 1400
+  },
+  {
+    "name": "david",
+    "gender": "male",
+    "age": 22,
+    "gender_probability": 0.95,
+    "country_id": "KE",
+    "country_probability": 0.89,
+    "sample_size": 1000
+  }
+]
